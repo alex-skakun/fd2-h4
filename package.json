@@ -1,0 +1,17 @@
+{
+  "name": "fd2-h4",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "jest"
+  },
+  "main": "./src/index.js",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@types/jest": "^29.4.0",
+    "jest": "^29.4.1",
+    "jest-environment-jsdom": "^29.4.1"
+  }
+}
