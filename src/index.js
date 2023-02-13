@@ -38,20 +38,15 @@ class Validator {
     if (this.mode === 'single') {
       for (let validator of this.validatorsArr) {
         const error = validator(value);
-        if (error) {
-          return error;
-        }
+        if (error) return error;
       }
     }
     // multi mode
     if (this.mode === 'multi') {
-      let errors = {};
-      for (let validator of this.validatorsArr) {
+      const errors = this.validatorsArr.reduce((errors, validator) => {
         const error = validator(value);
-        if (error) {
-          errors = Object.assign(errors, error)
-        }
-      }
+        return errors = error ? Object.assign(errors, error) : errors;
+      }, {})
       return (Object.keys(errors).length === 0) ? null : errors;
     }
     //Ошибок нету
