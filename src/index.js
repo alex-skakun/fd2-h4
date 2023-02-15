@@ -32,7 +32,7 @@ class Validator {
                 return this.arr;
             })
         }
-        if (this.enabled === false && this.configObj.mode === 'multi') {
+        else if (this.enabled === false && this.configObj.mode === 'multi') {
             this.arrValidators.map(validate => {
                 this.arr.push(validate(value));
                 return this.arr;
