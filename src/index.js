@@ -5,13 +5,14 @@ class Validator {
         this.configurator = configurator;
     }
     
-    
+
     enable() {
     return this.enabled = true;
     }
     disable(){
         return this.disabled = false;
     }
+    
     
     toggle(value = '') {
         switch (value) {
