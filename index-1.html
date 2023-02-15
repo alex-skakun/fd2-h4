@@ -1,0 +1,82 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Неизвестный </title></head><body>
+<h1 id="homework-4">Homework #4</h1>
+<p><code>Вносите изменения в файл ./src/index.js</code></p>
+<h2 id="_1">Задание</h2>
+<p>Создайте класс <code>Validator</code>, задача которого производить сложную валидацию данных. 
+Конструктор должен принимать массив функций-валидаторов, и объект с конфигурацией.</p>
+<h3 id="-">Функция-валидатор:</h3>
+<p>Это функция, которая принимает тестируемое значение и возвращает null, если оно валидно, или объект с булевым свойством. Свойство называется именем функции-валидатора</p>
+<h4 id="-_1">Пример функции-валидатора:</h4>
+<p><code>javascript
+const required = (value) =&gt; {
+    return Boolean(value) ? null : {required: true};
+};</code></p>
+<h3 id="_2">Объект с конфигурацией:</h3>
+<p>Это объект с одним свойством <code>mode</code>. Значением свойства могут быть строки: <code>'single'</code> или <code>'multi'</code>.
+Если в конструктор вторым аргументом не передавать конфигурацию, то будет применена конфигурация по умолчанию:
+<code>javascript
+{ 
+    mode: 'single'
+}</code>
+В режиме <code>single</code> валидатор производит валидацию до тех пор, пока не найдёт первую ошибку, а в режиме <code>multi</code> собирает все ошибки.</p>
+<h3 id="_3">Публичные свойства экземпляра:</h3>
+<ul>
+<li><code>enabled</code> - только для чтения, отображает включён валидатор или нет</li>
+</ul>
+<h3 id="_4">Публичные методы экземпляра:</h3>
+<ul>
+<li><code>enable()</code> - включает валидатор</li>
+<li><code>disable()</code> - выключает валидатор</li>
+<li><code>toggle()</code> - переключает состояние валидатора на обратное от текущего, может принимать конкретное состояние в качестве аргумента</li>
+<li><code>validate()</code> - запускает валидатор, в качестве аргумента принимает тестируемое значение и возвращает <code>null</code> если значение корректное, если значение не прошло валидацию, то возвращает объект с ошибками.</li>
+</ul>
+<h3 id="_5">Пример</h3>
+<p>```javascript
+// создаём функции-фалидаторы
+const required = (value) =&gt; {
+    return Boolean(value) ? null : {required: true};
+};
+const minLength = (minLength) =&gt; {
+    // функция-фалидатор создаётся другой функцией
+    return (value) =&gt; {
+        return String(value).length &gt;= minLength ? null : {minLength: true};
+    };
+};
+const maxLength = (maxLength) =&gt; {
+    return (value) =&gt; {
+        return String(value).length &lt;= maxLength ? null : {maxLength: true};
+    };
+};
+const min = (min) =&gt; {
+    return (value) =&gt; {
+        return value &gt;= min ? null : {min: true};
+    };
+};
+const max = (max) =&gt; {
+    return (value) =&gt; {
+        return value &lt;= max ? null : {max: true};
+    };
+};</p>
+<p>// создаём экземпляр валидатора с конфигурацией по умолчанию (не передаём второй аргумент). 
+const validator = new Validator([
+    required,
+    minLength(5),
+    maxLength(25),
+]);</p>
+<p>validator.validate('test'); // вернёт {minLength: true}
+validator.validate(''); // вернёт {required: true}
+validator.validate('successful'); // вернёт null</p>
+<p>validator.disable(); // выключит валидатор
+validator.validate('test'); // вернёт null, валидатор выключен, а значит значение всегда валидно
+validator.toggle(); // снова включит валидатор, т.к. в данный момент он выключен
+validator.validate('test'); // вернёт {minLength: true}
+validator.toggle(true); // оставит валидатор включённым, т.к. передано конкретное состояние</p>
+<p>// создаём экземпляр валидатора с режимом 'mutli'. 
+const multiValidator = new Validator([
+    required,
+    minLength(5),
+    maxLength(25),
+], {mode: 'multi'});</p>
+<p>multiValidator.validate(''); // вернёт {required: true, minLength: true} (две ошибки сразу)</p>
+<p>```</p>
+</body></html>

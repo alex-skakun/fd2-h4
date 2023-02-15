@@ -5,6 +5,7 @@ class Validator {
         this.configurator = configurator;
     }
     
+    
     enable() {
     return this.enabled = true;
     }
