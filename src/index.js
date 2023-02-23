@@ -6,6 +6,10 @@ class Validator {
         this.configObject = configObject.mode;
     }
 
+    get enabled() {
+        return this.#enabled;
+    }
+
     enable() {
         this.#enabled = true;
     }
